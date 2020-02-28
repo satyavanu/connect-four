@@ -1,5 +1,5 @@
 {
-  "name": "exercise-connect-four",
+  "name": "@aon-nl/exercise-connect-four",
   "version": "0.1.0",
   "private": true,
   "scripts": {
