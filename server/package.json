@@ -1,7 +1,7 @@
 {
-  "name": "connectfourserver",
+  "name": "connectfour",
   "version": "1.0.0",
-  "description": "",
+  "description": "backend interface package for connect four",
   "scripts": {
     "start": "node -r ts-node/register ./src/server.ts",
     "start:watch": "nodemon"

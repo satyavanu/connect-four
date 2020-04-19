@@ -13,7 +13,7 @@
 
 
 <script>
-
+import { mapState } from 'vuex';
 export default {
     name: 'GameContainer',
     data: () => ({
@@ -42,6 +42,13 @@ export default {
     mounted() {
         console.log(this.settings.color);
         this.color[true] = this.settings.color || 'green';
+    },
+    computed: mapState(['aiMove']),
+    watch: {
+       aiMove(newValue, oldValue) {
+          let { row, col }  = newValue;
+          console.log('data cahnges', row, col);
+        }
     },
     methods: {
         playPc (i,c) {

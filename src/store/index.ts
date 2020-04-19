@@ -6,26 +6,27 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    nextMove: null
+    aiMove: null
   },
   getters: {
-    catsList(state) {
-      return state.nextMove;
+    aiMove(state) {
+      return state.aiMove;
     }
   },
   mutations: {
-    getMove (d) {
-       console.log(d);
+    SET_AI_RESPONSE(state, payload) {
+      state.aiMove = payload;
     }
   },
   actions: {
     getMove (context,payload) {
       let data = JSON.parse(JSON.stringify(payload.stats));
       axios.post('/api/computer', data)
-        .then((data) => {
-           console.log(data);
+        .then(({data}) => {
+          context.commit("SET_AI_RESPONSE", data);
         })
         .catch(e => {
+          context.commit("SET_AI_RESPONSE", null);
         })
     }
   },
