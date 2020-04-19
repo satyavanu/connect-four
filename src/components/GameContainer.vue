@@ -16,14 +16,6 @@
 <script>
 import { mapState } from 'vuex'
 
-const defaultBoard = [
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0]
-]
 export default {
   name: 'GameContainer',
   props: {
