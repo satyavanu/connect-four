@@ -1,6 +1,7 @@
 <template>
     <div id="game-container">
         <div :key="row"
+            :ref="'gc'"
             v-for="row in rows" class="row">
             <div :key="col" v-for="col in cols" class="col"
                 :class="`${row}${col}`"
@@ -17,6 +18,23 @@ import { mapState } from 'vuex';
 export default {
     name: 'GameContainer',
     data: () => ({
+        defaultSettings: {
+            gameBoard: [ [0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0]],
+                mate: true,
+                player: { 
+                    true: 2, 
+                    false: 1
+                },
+                color: {
+                    true: '',
+                    false: 'yellow'
+                }
+        },
         gameBoard: [ [0, 0, 0, 0, 0, 0, 0],
           [0, 0, 0, 0, 0, 0, 0],
           [0, 0, 0, 0, 0, 0, 0],
@@ -42,11 +60,22 @@ export default {
     mounted() {
         this.color[true] = this.settings.color || 'green';
     },
-    computed: mapState(['aiMove']),
+    computed: mapState(['aiMove', 'resetGame']),
     watch: {
        aiMove(newValue, oldValue) {
           let { row, col }  = newValue;
-          console.log('i can move on', row, col)
+          this.drop(row, col);
+        },
+        resetGame(newValue, oldValue) {
+          console.log('do I set', newValue);
+          if(newValue) {
+              this.gameBoard = this.defaultSettings.gameBoard;
+              let elem = this.$el.querySelectorAll('.col');
+              elem.forEach(e => {
+                  e.removeAttribute("style")
+              })
+              this.$store.dispatch({type: 'resetGame', payload: false})
+          }
         }
     },
     methods: {
@@ -59,9 +88,14 @@ export default {
                     row: i
                 }
             });
-           let temp =  this.gameBoard[i].filter((v,i) => { if(v==0) return i});
-           let random = Math.floor(Math.random()*temp.length);
-           this.drop(i, random);
+        },
+        reset(val) {
+           if(val) {
+                this.gameBoard = this.defaultSettings.gameBoard;
+                this.$refs.forEach(element => {
+                    console.log(element);
+                });
+           }
         },
         drop(r,c, pc) {
             

@@ -6,16 +6,23 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    aiMove: null
+    aiMove: null,
+    resetGame: false,
   },
   getters: {
     aiMove(state) {
       return state.aiMove;
+    },
+    resetGame(state) {
+      return state.resetGame;
     }
   },
   mutations: {
     SET_AI_RESPONSE(state, payload) {
       state.aiMove = payload;
+    },
+    SET_GAME_RESET(state, payload) {
+      state.resetGame = true;
     }
   },
   actions: {
@@ -28,6 +35,9 @@ export default new Vuex.Store({
         .catch(e => {
           context.commit("SET_AI_RESPONSE", null);
         })
+    },
+    resetGame(context, {payload}) {
+      context.commit("SET_GAME_RESET", payload);
     }
   },
   modules: {}

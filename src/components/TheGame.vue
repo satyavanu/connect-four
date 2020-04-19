@@ -3,6 +3,7 @@
     <div class="container">
       <div class="leftcolumn"> 
         <GameContainer
+          ref="GameContainer"
           :rows="x"
           :cols="y"
           :settings="settings"
@@ -50,7 +51,6 @@ export default {
     doWeHaveAWinner(rows) {
       const winner = this.winCheckStrategy(rows) || 0;
       if (winner > 0) {
-        console.log('I have a winner', winner);
         this.$emit('win', { player: winner })
       }
     }

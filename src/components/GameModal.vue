@@ -5,11 +5,8 @@
             <div class="modal-container">
                 <div class="text-center"> 
                     <img src="https://img.icons8.com/bubbles/200/000000/trophy.png">
-                 <h4>CONGRATULATIONS!</h4>
-                 <p> </p>
-                <button class="modal-default-button" @click="$emit('close')">
-                    OK
-                  </button>
+                 <h4>CONGRATULATIONS! The Winner is <strong>Player{{winner.player}}</strong></h4>
+                <button class="modal-default-button" @click="$emit('close')">Reset Game</button>
              </div>
             </div>
           </div>
@@ -20,7 +17,9 @@
 <script>
 export default {
     name:"GameModal",
-    data: () => ({})
+    props: {
+       winner: Object
+    }
 }
 </script>
 
@@ -67,7 +66,4 @@ export default {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
-
-
-
 </style>

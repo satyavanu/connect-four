@@ -1,9 +1,12 @@
 <template>
   <div id="app">
-    <!-- <img alt="Aon" src="./assets/logo.png" />
-    <HelloWorld msg="Enjoy the exercise!" /> -->
-    <GameModal  v-if="showModal" @close="showModal = false"/>
+    <GameModal 
+      v-if="showModal"
+      :winner= "player" 
+      @close="showModal = false"
+    />
     <TheGame
+      ref="thegame"
       v-if="gameLoaded"
       :win-check-strategy="SmartCheckWinStrategy"
       :settings="gameSettings"
@@ -13,7 +16,6 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 import TheGame from './components/TheGame.vue'
 import GameModal from '@/components/GameModal'
 import { SmartCheckWinStrategy } from './services';
@@ -22,7 +24,6 @@ import axios from "axios";
 export default {
   name: 'App',
   components: {
-    HelloWorld,
     TheGame,
     GameModal
   },
@@ -35,6 +36,17 @@ export default {
        color: 'green'
     }
   }),
+  watch: {
+   showModal: {
+      handler: function(newVal, oldVal) {
+        // reset game
+        if(oldVal) {
+          this.$store.dispatch({type: 'resetGame', payload: true})
+        }
+      },
+      immediate: true
+    }
+  },
   mounted() {
     axios.get('api/settings')
       .then(res => {
@@ -49,8 +61,8 @@ export default {
   methods: {
     win(player) {
       this.showModal = true;
+      this.player  = player;
       console.log('We have a winner', player);
-      this.$forceUpdate();
     }
   },
 }
