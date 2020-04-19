@@ -1,190 +1,138 @@
 <template>
-    <div id="game-container">
-        <div :key="row"
-            :ref="'gc'"
-            v-for="row in rows" class="row">
-            <div :key="col" v-for="col in cols" class="col"
-                :class="`${row}${col}`"
-                :ref="`${row}${col}`"
-                @click="drop(row, col)">
-            </div>
-        </div>
+  <div id="game-container">
+    <div v-for="row in rows" :key="row" :ref="'gc'" class="row">
+      <div
+        v-for="col in cols"
+        :key="col"
+        :ref="`${row}${col}`"
+        class="col"
+        :class="`${row}${col}`"
+        @click="drop(row, col)"
+      ></div>
     </div>
+  </div>
 </template>
 
-
 <script>
-import { mapState } from 'vuex';
+import { mapState } from 'vuex'
+
+const defaultBoard = [
+  [0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0]
+]
 export default {
-    name: 'GameContainer',
-    data: () => ({
-        defaultSettings: {
-            gameBoard: [ [0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0]],
-                mate: true,
-                player: { 
-                    true: 2, 
-                    false: 1
-                },
-                color: {
-                    true: '',
-                    false: 'yellow'
-                }
-        },
-        gameBoard: [ [0, 0, 0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0, 0, 0]],
-        mate: true,
-        player: { 
-            true: 2, 
-            false: 1
-        },
-        color: {
-            true: '',
-            false: 'yellow'
-        },
-        waitingForMove: true
-    }),
-    props: {
-        rows: Array,
-        cols: Array,
-        settings: Object
+  name: 'GameContainer',
+  props: {
+    rows: Array,
+    cols: Array,
+    settings: Object
+  },
+  data: () => ({
+    gameBoard: [
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0]
+    ],
+    mate: true,
+    player: {
+      true: 2,
+      false: 1
     },
-    mounted() {
-        this.color[true] = this.settings.color || 'green';
+    color: {
+      true: '',
+      false: 'yellow'
     },
-    computed: mapState(['aiMove', 'resetGame']),
-    watch: {
-       aiMove(newValue, oldValue) {
-          let { row, col }  = newValue;
-          this.drop(row, col);
-        },
-        resetGame(newValue, oldValue) {
-          console.log('do I set', newValue, oldValue);
-          if(newValue ) {
-              this.gameBoard = this.defaultSettings.gameBoard;
-              let elem = this.$el.querySelectorAll('.col');
-              elem.forEach(e => {
-                  e.removeAttribute("style")
-              })
-              this.$store.dispatch({type: 'resetGame', payload: false})
+    waitingForMove: true
+  }),
+  computed: mapState(['aiMove', 'resetGame']),
+  watch: {
+    aiMove(newValue) {
+      const { row, col } = newValue
+      this.drop(row, col)
+    },
+    resetGame(newValue) {
+      if (newValue) {
+        this.gameBoard = [
+          [0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0]
+        ]
+        const elem = this.$el.querySelectorAll('.col')
+        elem.forEach(e => {
+          e.removeAttribute('style')
+        })
+        this.$store.dispatch({ type: 'resetGame', payload: false })
+      }
+    }
+  },
+  mounted() {
+    this.color[true] = this.settings.color || 'green'
+  },
+  methods: {
+    playPc(i) {
+      console.log('ai trun')
+      this.$store.dispatch({
+        type: 'getMove',
+        stats: {
+          board: this.gameBoard,
+          row: i
+        }
+      })
+    },
+    drop(r, c) {
+      this.mate = !this.mate
+      const rows = this.rows.length
+
+      if (this.gameBoard[r][c] === 0 && this.gameBoard[rows - 1][c] === 0) {
+        this.gameBoard[rows - 1][c] = this.player[this.mate]
+        this.$refs[`${rows - 1}${c}`][0].style.backgroundColor = this.color[
+          this.mate
+        ]
+        this.$emit('doWeHaveAWinner', {
+          board: this.gameBoard,
+          r: rows - 1,
+          c,
+          player: this.player[this.mate]
+        })
+      } else {
+        for (let i = rows - 1; i >= 0; i--) {
+          if (this.gameBoard[i][c] === 0) {
+            this.gameBoard[i][c] = this.player[this.mate]
+            this.$refs[`${i}${c}`][0].style.backgroundColor = this.color[
+              this.mate
+            ]
+            this.$emit('doWeHaveAWinner', {
+              board: this.gameBoard,
+              r: i,
+              c,
+              player: this.player[this.mate]
+            })
+            if (!this.mate) {
+              console.log('i m next pc', this.player[this.mate])
+              this.playPc(r, c)
+            }
+            return
           }
         }
-    },
-    methods: {
-        playPc (i,c) {
-           console.log('pc turn');
-           this.$store.dispatch({
-                type: 'getMove',
-                stats:  {
-                    board: this.gameBoard,
-                    row: i
-                }
-            });
-        },
-        reset(val) {
-           if(val) {
-                this.gameBoard = this.defaultSettings.gameBoard;
-                this.$refs.forEach(element => {
-                    console.log(element);
-                });
-           }
-        },
-        drop(r,c, pc) {
-            
-            this.mate = !this.mate;
-            let rows = this.rows.length;
-            let cols = this.cols.length;
+      }
 
-            if(this.gameBoard[r][c] === 0 && this.gameBoard[rows -1][c] === 0) {
-                this.gameBoard[rows -1][c] = this.player[this.mate];
-                this.$refs[`${rows-1}${c}`][0].style.backgroundColor = this.color[this.mate];
-                this.$emit('doWeHaveAWinner', { 
-                    board: this.gameBoard, 
-                    r: rows-1, 
-                    c,
-                    player: this.player[this.mate]
-                });
-            }         
-            else {
-                for(let i = rows-1 ; i >= 0; i--) {
-                    if(this.gameBoard[i][c]===0) {
-                        this.gameBoard[i][c] = this.player[this.mate];
-                        this.$refs[`${i}${c}`][0].style.backgroundColor = this.color[this.mate];
-                        this.$emit('doWeHaveAWinner', { 
-                            board: this.gameBoard, 
-                            r: i, 
-                            c,
-                            player: this.player[this.mate]
-                        });
-                        if(!this.mate)  {
-                            console.log('i m next pc',  this.player[this.mate]);
-                            this.playPc(r,c);
-                        }
-                        return;
-                    }
-                }
-            }
-           
-            if(!this.mate)  {
-               console.log('i m next pc',  this.player[this.mate]);
-               this.playPc(r,c);
-            }
-        }
+      if (!this.mate) {
+        console.log('i m next pc', this.player[this.mate])
+        this.playPc(r, c)
+      }
     }
+  }
 }
 </script>
 
-
-<style lang="scss">
-
-.row {
-  display: table-row;
-  background: #5a6673;
-}
-.col {
-    width: 25px;
-    height: 25px;
-    display: table-cell;
-    background-color: white;
-    border-radius: 50%;
-    display: inline-block;
-    padding: 10px;
-    margin: 10px;
-    
-}
-.yellow {
-    animation: drop 0.9s;
-  background-color: yellow;
-  
-}
-
-.blue {
-  background-color: blue;
-}
-
-
-@keyframes drop {
-  0% {
-    
-  }
-  20% {
-    
-    opacity: 1;
-  }
-  40%, 45% {
-    opacity: 1;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-</style>
+<style lang="scss"></style>

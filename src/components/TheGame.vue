@@ -1,7 +1,7 @@
 <template>
   <div id="the-game">
     <div class="container">
-      <div class="leftcolumn"> 
+      <div class="leftcolumn">
         <GameContainer
           ref="GameContainer"
           :rows="x"
@@ -11,18 +11,18 @@
         />
       </div>
       <div class="rightcolumn">
-        <GameDetails :settings="settings"/>
+        <GameDetails :settings="settings" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import GameContainer from '@/components/GameContainer';
-import GameDetails from '@/components/GameDetails';
-import { gameSettingsModel } from '@/store/game.model';
+import GameContainer from '@/components/GameContainer'
+import GameDetails from '@/components/GameDetails'
+import { GameSettingsModel } from '@/store/game.model'
 
-const range = (val) => [...Array(val).keys()];
+const range = val => [...Array(val).keys()]
 
 export default {
   name: 'TheGame', // You just lost it
@@ -30,26 +30,27 @@ export default {
     GameContainer,
     GameDetails
   },
-  data: () => ({
-  game: [ [0, 0, 0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0, 0, 0]]
-  }),
   props: {
     winCheckStrategy: Function,
-    win: Function,
-    settings: gameSettingsModel
+    settings: GameSettingsModel
   },
+  data: () => ({
+    game: [
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0]
+    ]
+  }),
   computed: {
-    x: (rows) => range(6),
-    y: (cols) => range(7)
+    x: () => range(6),
+    y: () => range(7)
   },
   methods: {
     doWeHaveAWinner(rows) {
-      const winner = this.winCheckStrategy(rows) || 0;
+      const winner = this.winCheckStrategy(rows) || 0
       if (winner > 0) {
         this.$emit('win', { player: winner })
       }
@@ -59,41 +60,46 @@ export default {
 </script>
 
 <style lang="scss">
-
 .container {
   display: flex;
   justify-content: center;
 
-    & .rightcolumn {
-        text-align: initial;
-        padding-left: 20px;
+  & .rightcolumn {
+    text-align: initial;
+    padding-left: 20px;
 
-        & .circle {
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            display: inline-block;
-            padding: 10px;
-            margin: 10px;
-            color: white;
-            font-weight: bold;
-        }
+    & .circle {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      display: inline-block;
+      padding: 10px;
+      margin: 10px;
+      color: white;
+      font-weight: bold;
     }
+    & .yellow {
+      background: yellow;
+    }
+  }
 
-    & .leftcolumn {
-        & .row {
-          display: table-row;
-          background: #5a6673;
-        }
-        & .col {
-          width: 40px;
-          height: 40px;
-          background-color: white;
-          border-radius: 50%;
-          display: inline-block;
-          padding: 10px;
-          margin: 10px;
-        }
+  & .leftcolumn {
+    & .row {
+      display: table-row;
+      background: #5a6673;
     }
+    & .col {
+      width: 40px;
+      height: 40px;
+      background-color: white;
+      border-radius: 50%;
+      display: inline-block;
+      padding: 10px;
+      margin: 10px;
+    }
+    & .yellow {
+      background-color: yellow;
+    }
+  }
 }
 </style>
