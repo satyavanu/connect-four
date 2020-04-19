@@ -39,8 +39,8 @@ export default {
   watch: {
    showModal: {
       handler: function(newVal, oldVal) {
+        // if reset notify store
         if(oldVal) {
-          console.log('i am here at show Modal');
           this.$store.dispatch({type: 'resetGame', payload: true})
         }
       },
@@ -76,9 +76,5 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px; 
-}
-
-.details {
-  display: table;
 }
 </style>

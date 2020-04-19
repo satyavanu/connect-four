@@ -59,54 +59,41 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/assets/styles/variables.scss";
-.grid {
-  background-color: $primary;
-  margin: 2rem auto;
-  padding-top: 1rem; // space for indicator
-  position: relative;
-}
-.row {
-  display: table-row;
-  background: #5a6673;
-}
-.col {
-    width: 25px;
-    height: 25px;
-    background-color: white;
-    border-radius: 50%;
-    display: inline-block;
-    padding: 10px;
-    margin: 10px;
-}
-.yellow {
-  background-color: yellow;
-}
 
-.circle {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    display: inline-block;
-    padding: 10px;
-    margin: 10px;
-    color: white;
-    font-weight: bold;
-}
-
-.blue {
-  background-color: blue;
-}
-
-
-.contiainer {
+.container {
   display: flex;
   justify-content: center;
 
-    .rightcolumn {
-      text-align: initial;
-      padding-left: 20px;
+    & .rightcolumn {
+        text-align: initial;
+        padding-left: 20px;
+
+        & .circle {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: inline-block;
+            padding: 10px;
+            margin: 10px;
+            color: white;
+            font-weight: bold;
+        }
+    }
+
+    & .leftcolumn {
+        & .row {
+          display: table-row;
+          background: #5a6673;
+        }
+        & .col {
+          width: 40px;
+          height: 40px;
+          background-color: white;
+          border-radius: 50%;
+          display: inline-block;
+          padding: 10px;
+          margin: 10px;
+        }
     }
 }
-
 </style>

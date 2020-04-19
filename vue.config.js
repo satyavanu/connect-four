@@ -8,7 +8,7 @@ module.exports = {
       }
     }
   },
-  lintOnSave: false,
+  lintOnSave: true,
   chainWebpack: config => {
     config.plugin('html').tap(args => {
       args[0].title = 'Aon exercise - Connect four'
