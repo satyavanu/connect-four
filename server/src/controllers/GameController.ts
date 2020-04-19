@@ -24,10 +24,12 @@ export class GameController {
   public getNextMove(req: Request, res: Response) {
     const board = req.body?.board
     const row = req.body?.row
-    const smartRow = board[row].filter((v, i) => {
-      if (v === 0) return i
-    })
+    const smartRow = board[row].filter((v, i) => v===0)
     const smartCol = Math.floor(Math.random() * smartRow.length)
+    /**
+     * smart logic nice to have
+     * 
+     */
     res.status(200).send({
       row: row,
       col: smartCol

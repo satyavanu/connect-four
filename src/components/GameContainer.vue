@@ -96,6 +96,10 @@ export default {
           c,
           player: this.player[this.mate]
         })
+        if (!this.mate) {
+          console.log('i m next pc', this.player[this.mate])
+          this.playPc(r, c)
+        }
       } else {
         for (let i = rows - 1; i >= 0; i--) {
           if (this.gameBoard[i][c] === 0) {
@@ -116,11 +120,6 @@ export default {
             return
           }
         }
-      }
-
-      if (!this.mate) {
-        console.log('i m next pc', this.player[this.mate])
-        this.playPc(r, c)
       }
     }
   }
