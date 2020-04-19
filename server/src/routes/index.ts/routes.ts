@@ -1,4 +1,4 @@
-import {Request, Response, NextFunction} from "express";
+import { Request, Response, NextFunction } from "express";
 import { GameController } from "../../controllers/GameController";
 
 export class Routes { 
@@ -15,14 +15,17 @@ export class Routes {
             })
         })
         
-        // Contact 
+        
         app.route('/api/settings')
-        .get((req: Request, res: Response, next: NextFunction) => {
-           next();                     
-        }, this.gameController.getGameSettings)        
-
-        // POST endpoint
-        .post(this.gameController.getData);
+            .get((req: Request, res: Response, next: NextFunction) => {
+                next();                     
+            }, this.gameController.getGameSettings)
+            .post(this.gameController.getData);
+        
+        app.route('/api/computer')
+            .post((req: Request, res: Response, next: NextFunction) => {
+                next();                     
+            }, this.gameController.getNextMove);
 
     }
 }

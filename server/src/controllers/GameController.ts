@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-
+import * as bodyParser from "body-parser";
 export class GameController {
 
 
@@ -17,6 +17,13 @@ export class GameController {
             name: 'Game AI',
             color: colorList[Math.floor(Math.random() * colorList.length)]
         })
+    }
+
+
+    public getNextMove(req: Request, res: Response) {
+        let board = req.body?.board;
+        let row = req.body?.row;
+        console.log(board);
     }
 
 }
