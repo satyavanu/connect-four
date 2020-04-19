@@ -1,27 +1,24 @@
 <template>
   <div id="the-game">
-     <div class="details">
-      <div class=""> 
-        <span class="circle yellow"> P1</span>
-        <span class="name"> Human</span>
+    <div class="container">
+      <div class="leftcolumn"> 
+        <GameContainer
+          :rows="x"
+          :cols="y"
+          :settings="settings"
+          @doWeHaveAWinner="doWeHaveAWinner"
+        />
       </div>
-      <div class="">
-        <span :style="{background: settings.color}" class="circle"> P2</span>
-        <span class="name">{{settings.name}}</span>
+      <div class="rightcolumn">
+        <GameDetails :settings="settings"/>
       </div>
     </div>
-    <GameContainer
-      :rows="x"
-      :cols="y"
-      :settings="settings"
-      @doWeHaveAWinner="doWeHaveAWinner"
-    />
   </div>
 </template>
 
 <script>
 import GameContainer from '@/components/GameContainer';
-import GameSettings from '@/components/GameSettings';
+import GameDetails from '@/components/GameDetails';
 import { gameSettingsModel } from '@/store/game.model';
 
 const range = (val) => [...Array(val).keys()];
@@ -29,8 +26,8 @@ const range = (val) => [...Array(val).keys()];
 export default {
   name: 'TheGame', // You just lost it
   components: {
-    GameSettings,
-    GameContainer
+    GameContainer,
+    GameDetails
   },
   data: () => ({
   game: [ [0, 0, 0, 0, 0, 0, 0],
@@ -61,12 +58,10 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-#the-game {
-  width: 700px;
-  margin: 0 auto;
-}
+<style lang="scss">
+@import "@/assets/styles/variables.scss";
 .grid {
+  background-color: $primary;
   margin: 2rem auto;
   padding-top: 1rem; // space for indicator
   position: relative;
@@ -101,6 +96,17 @@ export default {
 
 .blue {
   background-color: blue;
+}
+
+
+.contiainer {
+  display: flex;
+  justify-content: center;
+
+    .rightcolumn {
+      text-align: initial;
+      padding-left: 20px;
+    }
 }
 
 </style>

@@ -1,11 +1,5 @@
 import { Request, Response } from 'express';
-import * as bodyParser from "body-parser";
 export class GameController {
-
-
-    constructor() {
-
-    }
 
     public getData(req: Request, res: Response) {
         res.status(200).send({
@@ -25,11 +19,8 @@ export class GameController {
     public getNextMove(req: Request, res: Response) {
         let board = req.body?.board;
         let row = req.body?.row;
-        console.log(row);
         let smartRow =  board[row].filter((v,i) => { if(v===0) return i});
         let smartCol = Math.floor(Math.random()*smartRow.length);
-        console.log(board);
-        console.log(smartCol);
         res.status(200).send({
             row: row,
             col: smartCol
