@@ -67,8 +67,8 @@ export default {
           this.drop(row, col);
         },
         resetGame(newValue, oldValue) {
-          console.log('do I set', newValue);
-          if(newValue) {
+          console.log('do I set', newValue, oldValue);
+          if(newValue ) {
               this.gameBoard = this.defaultSettings.gameBoard;
               let elem = this.$el.querySelectorAll('.col');
               elem.forEach(e => {

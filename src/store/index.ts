@@ -22,7 +22,7 @@ export default new Vuex.Store({
       state.aiMove = payload;
     },
     SET_GAME_RESET(state, payload) {
-      state.resetGame = true;
+      state.resetGame = payload;
     }
   },
   actions: {

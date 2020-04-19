@@ -39,8 +39,8 @@ export default {
   watch: {
    showModal: {
       handler: function(newVal, oldVal) {
-        // reset game
         if(oldVal) {
+          console.log('i am here at show Modal');
           this.$store.dispatch({type: 'resetGame', payload: true})
         }
       },
