@@ -53,7 +53,6 @@ export class GameController {
     for (let i = 0; i < arr.length; i++) {
       const rowMatch = arr[i].join('').match(`0${1}${1}${1}`)
       if (rowMatch) {
-        console.log(arr[i])
         return i
       }
     }
