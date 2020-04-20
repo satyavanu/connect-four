@@ -84,7 +84,7 @@ export default {
     drop(r, c) {
       this.mate = !this.mate
       const rows = this.rows.length
-
+      // first check with the row
       if (this.gameBoard[r][c] === 0 && this.gameBoard[rows - 1][c] === 0) {
         this.gameBoard[rows - 1][c] = this.player[this.mate]
         this.$refs[`${rows - 1}${c}`][0].style.backgroundColor = this.color[
@@ -95,7 +95,7 @@ export default {
           console.log('i m next pc', this.player[this.mate])
           this.playPc(r, c)
         }
-      } else {
+      } else { // if row filled allow the next one
         for (let i = rows - 1; i >= 0; i--) {
           if (this.gameBoard[i][c] === 0) {
             this.gameBoard[i][c] = this.player[this.mate]

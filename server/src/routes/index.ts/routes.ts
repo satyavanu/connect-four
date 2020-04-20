@@ -7,7 +7,7 @@ export class Routes {
   public routes(app): void {
     app.route('/').get((req: Request, res: Response) => {
       res.status(200).send({
-        message: 'GET request successfulll!!!!'
+        message: 'GET request success'
       })
     })
 
@@ -22,6 +22,6 @@ export class Routes {
       .route('/api/computer')
       .post((req: Request, res: Response, next: NextFunction) => {
         next()
-      }, this.gameController.getNextMove)
+      }, this.gameController.getNextMove.bind(this.gameController))
   }
 }
