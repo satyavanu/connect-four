@@ -90,12 +90,7 @@ export default {
         this.$refs[`${rows - 1}${c}`][0].style.backgroundColor = this.color[
           this.mate
         ]
-        this.$emit('doWeHaveAWinner', {
-          board: this.gameBoard,
-          r: rows - 1,
-          c,
-          player: this.player[this.mate]
-        })
+        this.$emit('doWeHaveAWinner', this.gameBoard);
         if (!this.mate) {
           console.log('i m next pc', this.player[this.mate])
           this.playPc(r, c)
@@ -107,12 +102,7 @@ export default {
             this.$refs[`${i}${c}`][0].style.backgroundColor = this.color[
               this.mate
             ]
-            this.$emit('doWeHaveAWinner', {
-              board: this.gameBoard,
-              r: i,
-              c,
-              player: this.player[this.mate]
-            })
+            this.$emit('doWeHaveAWinner', this.gameBoard)
             if (!this.mate) {
               console.log('i m next pc', this.player[this.mate])
               this.playPc(r, c)
